@@ -12,16 +12,24 @@ src/
 │   ├── providers.tsx             # Global providers (theme, query, etc)
 │   └── theme.tsx                 # Theme configuration
 │
+├── config/                       # ✅ Centralized configuration
+│   ├── api.ts                   # API config, endpoints
+│   ├── app.ts                   # App settings, features
+│   ├── constants.ts             # Global constants
+│   └── index.ts                 # Barrel export
+│
 ├── features/                     # Feature modules (domain-driven)
 │   ├── home/
 │   │   ├── page.tsx              # Feature page/route
 │   │   ├── api.ts                # API calls
-│   │   └── hooks.ts              # Custom hooks
+│   │   ├── hooks.ts              # Custom hooks
+│   │   └── constants.ts          # ✅ Feature-specific constants
 │   │
 │   └── products/
 │       ├── page.tsx
 │       ├── api.ts
-│       └── hooks.ts
+│       ├── hooks.ts
+│       └── constants.ts          # ✅ Feature-specific constants
 │
 ├── shared/                       # Shared utilities & components
 │   ├── components/
@@ -32,6 +40,14 @@ src/
 │   │   │   └── ComponentShowcase.tsx
 │   │   └── ui/                   # UI primitives (shadcn/ui)
 │   │       └── button.tsx
+│   ├── hooks/                    # ✅ Reusable custom hooks
+│   │   ├── useLocalStorage.ts
+│   │   ├── useDebounce.ts
+│   │   ├── useThrottle.ts
+│   │   ├── useAsync.ts
+│   │   ├── usePrevious.ts
+│   │   ├── useMediaQuery.ts
+│   │   └── index.ts
 │   ├── libs/
 │   │   ├── queryClient.ts        # React Query setup
 │   │   └── api/
@@ -85,9 +101,16 @@ src/types/
 ### 4. **Shared Resources**
 
 - `shared/components/` - Reusable UI components
+- `shared/hooks/` - Custom hooks (localStorage, debounce, throttle, async, mediaquery, previous)
 - `shared/libs/` - Core libraries & setup
 - `shared/utils/` - Helper functions
 - `shared/styles/` - Global styles
+
+### 5. **Centralized Configuration**
+
+- `config/api.ts` - API base URLs, endpoints, retry config, cache config
+- `config/app.ts` - App settings, features, validation rules, pagination
+- `config/constants.ts` - HTTP status codes, error messages, success messages, delays
 
 ## 📦 Module Communication
 
