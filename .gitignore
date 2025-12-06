@@ -1,0 +1,69 @@
+# --- Dependencies ---
+node_modules/
+.pnpm-store/
+
+# --- Build Output ---
+dist/
+build/
+.vite/
+
+# --- Environment ---
+.env
+.env.*.local
+.env.local
+.env.test.local
+.env.production.local
+
+# --- Logs & Debug ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+bun-debug.log*
+
+# --- IDE & OS Files ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# macOS files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Coverage & Test Output ---
+coverage/
+*.lcov
+
+# --- Linting & Formatting ---
+.eslintcache
+
+# --- TypeScript Build Cache ---
+*.tsbuildinfo
+
+# --- Temporary Vite Cache / Plugins ---
+vite.config.ts.timestamp*
+vite.config.js.timestamp*
+vite-history/
+
+# --- Husky ---
+.husky/_
+
+# --- Optional package managers ---
+.pnp.*
+.cache/
+
+# --- Optional: editor settings ---
+*.code-workspace
+
+# --- Optional: local project assets ---
+/tmp/
+/scripts/output/
+/design/
