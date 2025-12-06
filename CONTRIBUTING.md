@@ -177,17 +177,17 @@ We use **Conventional Commits** for better commit history and automated versioni
 
 ### Types & Rules
 
-| Type | Description | Rule | Example |
-|------|-------------|------|---------|
-| **feat** | New feature | ✅ Use this when adding new functionality | `feat(products): add product filter` |
-| **fix** | Bug fix | ✅ Use for bug fixes only, not refactoring | `fix(header): correct theme toggle` |
-| **docs** | Documentation | ✅ For README, ARCHITECTURE, guides updates | `docs: update setup instructions` |
-| **style** | Code style | ✅ Formatting, semicolons, spaces (no logic change) | `style: fix indentation in button.tsx` |
-| **refactor** | Code refactor | ✅ Improve code without changing behavior | `refactor(api): simplify error handling` |
-| **perf** | Performance | ✅ Performance improvements | `perf(query): optimize product list query` |
-| **test** | Tests | ✅ Add or update tests | `test(products): add useProducts hook tests` |
-| **chore** | Maintenance | ✅ Tooling, dependencies, build updates | `chore: update dependencies` |
-| **ci** | CI/CD | ✅ CI/CD configuration changes | `ci: add github actions workflow` |
+| Type         | Description   | Rule                                                | Example                                      |
+| ------------ | ------------- | --------------------------------------------------- | -------------------------------------------- |
+| **feat**     | New feature   | ✅ Use this when adding new functionality           | `feat(products): add product filter`         |
+| **fix**      | Bug fix       | ✅ Use for bug fixes only, not refactoring          | `fix(header): correct theme toggle`          |
+| **docs**     | Documentation | ✅ For README, ARCHITECTURE, guides updates         | `docs: update setup instructions`            |
+| **style**    | Code style    | ✅ Formatting, semicolons, spaces (no logic change) | `style: fix indentation in button.tsx`       |
+| **refactor** | Code refactor | ✅ Improve code without changing behavior           | `refactor(api): simplify error handling`     |
+| **perf**     | Performance   | ✅ Performance improvements                         | `perf(query): optimize product list query`   |
+| **test**     | Tests         | ✅ Add or update tests                              | `test(products): add useProducts hook tests` |
+| **chore**    | Maintenance   | ✅ Tooling, dependencies, build updates             | `chore: update dependencies`                 |
+| **ci**       | CI/CD         | ✅ CI/CD configuration changes                      | `ci: add github actions workflow`            |
 
 ### Scope Guidelines
 
@@ -201,6 +201,7 @@ feat(scope): description
 ```
 
 **Common Scopes:**
+
 - `products` - Product feature
 - `home` - Home page
 - `auth` - Authentication
@@ -212,6 +213,7 @@ feat(scope): description
 - `shared` - Shared utilities
 
 **Examples with scope:**
+
 ```bash
 feat(products): add product filter
 fix(header): correct alignment
@@ -245,23 +247,27 @@ feat: implement a button loading state with spinner that shows when clicked (too
 ### Body & Footer
 
 **Body** (optional but recommended):
+
 - Explain WHAT and WHY, not HOW
 - Wrap at 72 characters
 - Separate from subject with blank line
 - Use bullet points for multiple changes
 
 **Footer** (optional):
+
 - Link related issues: `Closes #123`, `Fixes #456`
 - Breaking changes: `BREAKING CHANGE: description`
 
 ### Complete Examples
 
 **Simple feature:**
+
 ```bash
 git commit -m "feat(products): add product filter functionality"
 ```
 
 **Feature with body:**
+
 ```bash
 git commit -m "feat(auth): implement login flow
 
@@ -274,6 +280,7 @@ Closes #123"
 ```
 
 **Bug fix with details:**
+
 ```bash
 git commit -m "fix(header): correct theme toggle alignment
 
@@ -284,6 +291,7 @@ Closes #456"
 ```
 
 **Breaking change:**
+
 ```bash
 git commit -m "refactor(api): change response format
 
@@ -292,6 +300,7 @@ BREAKING CHANGE: API response structure changed from
 ```
 
 **Multiple related changes:**
+
 ```bash
 git commit -m "feat(products): enhance product management
 
@@ -306,6 +315,7 @@ Closes #100, #101, #102"
 ### Commit Best Practices
 
 ✅ **DO:**
+
 - Make atomic commits (one logical change per commit)
 - Commit often during development
 - Write descriptive, clear messages
@@ -313,6 +323,7 @@ Closes #100, #101, #102"
 - Use present tense in subject
 
 ❌ **DON'T:**
+
 - Mix multiple features in one commit
 - Use vague messages like "fix stuff" or "update"
 - Commit broken code
@@ -322,11 +333,13 @@ Closes #100, #101, #102"
 ### Tools & Validation
 
 **Husky + commitlint:**
+
 - Installed and configured automatically
 - Validates every commit message
 - Rejects commits that don't follow convention
 
 Example rejection:
+
 ```
 ⧗   input: feat Add product
 ✖   subject must not be empty
