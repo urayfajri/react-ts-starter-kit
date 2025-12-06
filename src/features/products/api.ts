@@ -1,18 +1,23 @@
 import { api } from "@/shared/libs/api/axios";
+import type {
+  CreateProductRequest,
+  Product,
+  UpdateProductRequest,
+} from "@/types/product";
 
-export type Product = { id: string; name: string };
+export type { Product } from "@/types/product";
 
 export async function fetchProducts(): Promise<Product[]> {
   const res = await api.get("/products");
   return res.data;
 }
 
-export async function createProduct(payload: { name: string }): Promise<Product> {
+export async function createProduct(payload: CreateProductRequest): Promise<Product> {
   const res = await api.post("/products", payload);
   return res.data;
 }
 
-export async function updateProduct(payload: { id: string; name: string }): Promise<Product> {
+export async function updateProduct(payload: UpdateProductRequest): Promise<Product> {
   const res = await api.put(`/products/${payload.id}`, payload);
   return res.data;
 }
