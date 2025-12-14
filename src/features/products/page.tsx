@@ -79,7 +79,7 @@ export default function ProductsPage() {
         </div>
 
         {/* Add Product Section */}
-          <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl border border-primary/20 p-8 space-y-4">
+        <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl border border-primary/20 p-8 space-y-4">
           <h3 className="text-lg font-semibold">Add New Product</h3>
           <div className="flex flex-col gap-3">
             <input
@@ -92,28 +92,28 @@ export default function ProductsPage() {
               }}
             />
             <div className="flex gap-3 w-full">
-            <input
-              className="flex-1 rounded-lg border border-input bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all"
-              placeholder="Enter product name..."
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              onKeyPress={(e) => {
-                if (e.key === "Enter" && name.trim()) {
+              <input
+                className="flex-1 rounded-lg border border-input bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all"
+                placeholder="Enter product name..."
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter" && name.trim()) {
+                    createMut.mutate({ name });
+                    setName("");
+                  }
+                }}
+              />
+              <Button
+                onClick={() => {
+                  if (!name.trim()) return;
                   createMut.mutate({ name });
                   setName("");
-                }
-              }}
-            />
-            <Button
-              onClick={() => {
-                if (!name.trim()) return;
-                createMut.mutate({ name });
-                setName("");
-              }}
-              disabled={createMut.isPending}
-            >
-              {createMut.isPending ? "Saving..." : "Add Product"}
-            </Button>
+                }}
+                disabled={createMut.isPending}
+              >
+                {createMut.isPending ? "Saving..." : "Add Product"}
+              </Button>
             </div>
           </div>
         </div>

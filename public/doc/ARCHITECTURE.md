@@ -30,7 +30,14 @@ src/
 │       ├── api.ts
 │       ├── hooks.ts
 │       └── constants.ts          # ✅ Feature-specific constants
+│       └── components/           # NEW: Feature-specific components
+│           ├── ProductCard.tsx
+│           └── index.ts
 │
+├── guards/                       # Route guards & middleware
+│   ├── AuthGuard.tsx
+│   └── ProtecterRoute.tsx
+|
 ├── shared/                       # Shared utilities & components
 │   ├── components/
 │   │   ├── layout/               # Layout components
@@ -40,6 +47,7 @@ src/
 │   │   │   └── ComponentShowcase.tsx
 │   │   └── ui/                   # UI primitives (shadcn/ui)
 │   │       └── button.tsx
+|   ├── errors/                   # AppError and ErrorBoundary
 │   ├── hooks/                    # ✅ Reusable custom hooks
 │   │   ├── useLocalStorage.ts
 │   │   ├── useDebounce.ts
