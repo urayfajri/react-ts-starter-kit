@@ -41,6 +41,7 @@ export function useAsync<T>(asyncFunction: () => Promise<T>, immediate = true) {
     if (immediate) {
       execute();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [immediate]);
 
   return {
