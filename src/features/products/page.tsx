@@ -7,6 +7,7 @@ import {
   useProducts,
   useUpdateProduct,
 } from "./hooks";
+import { useDebounce } from "@/shared/hooks";
 
 export default function ProductsPage() {
   const { data, isLoading, isError } = useProducts();
@@ -15,9 +16,18 @@ export default function ProductsPage() {
   const deleteMut = useDeleteProduct();
 
   const [name, setName] = React.useState("");
+  const [query, setQuery] = React.useState("");
+  const [debouncedQuery, setDebouncedQuery] = React.useState("");
+
+  const debouncedSetQuery = useDebounce((q: string) => {
+    setDebouncedQuery(q);
+  }, 300);
 
   // Ensure data is an array
   const products = Array.isArray(data) ? data : [];
+  const filtered = debouncedQuery
+    ? products.filter((p) => p.name.toLowerCase().includes(debouncedQuery.toLowerCase()))
+    : products;
 
   if (isLoading) {
     return (
@@ -69,9 +79,19 @@ export default function ProductsPage() {
         </div>
 
         {/* Add Product Section */}
-        <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl border border-primary/20 p-8 space-y-4">
+          <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl border border-primary/20 p-8 space-y-4">
           <h3 className="text-lg font-semibold">Add New Product</h3>
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-3">
+            <input
+              className="w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all"
+              placeholder="Search products..."
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                debouncedSetQuery(e.target.value);
+              }}
+            />
+            <div className="flex gap-3 w-full">
             <input
               className="flex-1 rounded-lg border border-input bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all"
               placeholder="Enter product name..."
@@ -94,13 +114,14 @@ export default function ProductsPage() {
             >
               {createMut.isPending ? "Saving..." : "Add Product"}
             </Button>
+            </div>
           </div>
         </div>
 
         {/* Products List */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Product List ({products.length})</h3>
-          {products.length === 0 ? (
+          <h3 className="text-lg font-semibold">Product List ({filtered.length})</h3>
+          {filtered.length === 0 ? (
             <div className="text-center py-12 bg-card rounded-lg border border-dashed border-primary/30">
               <p className="text-muted-foreground">
                 No products yet. Add one to get started!
@@ -108,7 +129,7 @@ export default function ProductsPage() {
             </div>
           ) : (
             <div className="space-y-3">
-              {products.map((p) => (
+              {filtered.map((p) => (
                 <div
                   key={p.id}
                   className="flex items-center justify-between bg-card rounded-lg border border-input p-4 hover:border-primary/50 transition-all hover:shadow-md"
