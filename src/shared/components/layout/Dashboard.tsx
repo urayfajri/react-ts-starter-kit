@@ -1,6 +1,7 @@
 import { Button } from "@/shared/components/ui/button";
 import Header from "@/shared/components/layout/Header";
 import ComponentShowcase from "@/shared/components/layout/ComponentShowcase";
+import { useMediaQuery } from "@/shared/hooks";
 
 export default function Dashboard() {
   return (
@@ -32,7 +33,7 @@ export default function Dashboard() {
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className={useMediaQuery("(max-width: 768px)") ? "flex flex-col" : "grid grid-cols-1 md:grid-cols-3 gap-6"}>
           <FeatureCard
             icon="🎨"
             title="Beautiful UI"

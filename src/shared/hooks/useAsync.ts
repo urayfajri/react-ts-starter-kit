@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 /**
  * useAsync Hook
@@ -20,7 +20,7 @@ export function useAsync<T>(asyncFunction: () => Promise<T>, immediate = true) {
   const [error, setError] = useState<Error | null>(null);
 
   // The execute function wraps asyncFunction and handles setting state
-  const execute = async () => {
+  const execute = useCallback(async () => {
     setStatus("pending");
     setData(null);
     setError(null);
@@ -34,14 +34,14 @@ export function useAsync<T>(asyncFunction: () => Promise<T>, immediate = true) {
       setError(err instanceof Error ? err : new Error(String(err)));
       setStatus("error");
     }
-  };
+  }, [asyncFunction]);
 
   // Call execute if we want to fire it immediately
   useEffect(() => {
     if (immediate) {
       execute();
     }
-  }, [immediate]);
+  }, [immediate, execute]);
 
   return {
     execute,
