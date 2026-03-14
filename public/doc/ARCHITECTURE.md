@@ -21,23 +21,23 @@ src/
 ├── features/                     # Feature modules (domain-driven)
 │   ├── home/
 │   │   ├── page.tsx              # Feature page/route
-│   │   ├── api.ts                # API calls
-│   │   ├── hooks.ts              # Custom hooks
-│   │   └── constants.ts          # ✅ Feature-specific constants
+│   │   ├── constants.ts          # ✅ Feature-specific constants
+│   │   └── (api.ts, hooks.ts)    # Optional when feature needs API/hooks
 │   │
 │   └── products/
 │       ├── page.tsx
 │       ├── api.ts
 │       ├── hooks.ts
-│       └── constants.ts          # ✅ Feature-specific constants
-│       └── components/           # NEW: Feature-specific components
+│       ├── constants.ts          # ✅ Feature-specific constants
+│       └── components/           # Feature-specific components
 │           ├── ProductCard.tsx
-│           └── index.ts
+│           ├── ProductForm.tsx
+│           └── index.ts          # Barrel export (optional)
 │
 ├── guards/                       # Route guards & middleware
-│   ├── AuthGuard.tsx
-│   └── ProtecterRoute.tsx
-|
+│   ├── AuthGuard.ts              # Auth utilities (isAuthenticated, getAuthToken)
+│   └── ProtectedRoute.tsx       # Route wrapper component
+│
 ├── shared/                       # Shared utilities & components
 │   ├── components/
 │   │   ├── layout/               # Layout components

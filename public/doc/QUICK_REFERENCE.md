@@ -87,7 +87,6 @@ HOME_NAVIGATION.PRODUCTS; // "/products"
 | ------------------------------------------------------------ | ------------------------------- | --------- |
 | [INDEX.md](./INDEX.md)                                       | **START HERE** - Navigation hub | 5 min     |
 | [ARCHITECTURE.md](./ARCHITECTURE.md)                         | Complete architecture guide     | 15 min    |
-| [ARCHITECTURE_ADJUSTMENTS.md](./ARCHITECTURE_ADJUSTMENTS.md) | Phase planning & roadmap        | 20 min    |
 | [CONFIG_HOOKS_GUIDE.md](./CONFIG_HOOKS_GUIDE.md)             | Config & hooks reference        | 30 min    |
 | [FEATURE_CONSTANTS_GUIDE.md](./FEATURE_CONSTANTS_GUIDE.md)   | Feature constants pattern       | 25 min    |
 
@@ -288,7 +287,6 @@ const isProd = import.meta.env.PROD;
 
 - [INDEX.md](./INDEX.md) - Start here for navigation
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Full architecture guide
-- [ARCHITECTURE_ADJUSTMENTS.md](./ARCHITECTURE_ADJUSTMENTS.md) - Roadmap & phases
 - [CONFIG_HOOKS_GUIDE.md](./CONFIG_HOOKS_GUIDE.md) - Config & Hooks API
 - [FEATURE_CONSTANTS_GUIDE.md](./FEATURE_CONSTANTS_GUIDE.md) - Constants pattern
 

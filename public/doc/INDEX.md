@@ -24,41 +24,7 @@ Panduan lengkap struktur arsitektur modular React TS Starter Kit.
 
 ---
 
-### 2. **ARCHITECTURE_ADJUSTMENTS.md** - Improvement Recommendations
-
-Dokumentasi lengkap tentang 8 rekomendasi penyesuaian arsitektur dan status implementasinya.
-
-**Status Implementasi:**
-
-- ✅ Phase 1 - COMPLETED
-  - Config Folder (api.ts, app.ts, constants.ts)
-  - Shared Hooks (6 custom hooks)
-  - Feature Constants (Product, Home)
-- ⏳ Phase 2 - PLANNED
-  - Guards folder (ProtectedRoute, AuthGuard)
-  - Error handling layer
-  - Feature components structure
-- ⏳ Phase 3 - PLANNED
-  - Contexts folder
-  - Services layer
-  - Zustand stores
-
-**Isi:**
-
-- Penjelasan tiap adjustment dengan benefit
-- Status implementasi dengan checklist
-- Recommended structure untuk tiap phase
-- Timeline dan prioritas
-
-**Untuk siapa:** Tech leads, architects, project managers
-
-**Waktu baca:** ~20 menit
-
-[📖 Baca ARCHITECTURE_ADJUSTMENTS.md](./ARCHITECTURE_ADJUSTMENTS.md)
-
----
-
-### 3. **CONFIG_HOOKS_GUIDE.md** - Config & Hooks Integration
+### 2. **CONFIG_HOOKS_GUIDE.md** - Config & Hooks Integration
 
 Panduan lengkap untuk menggunakan Config Folder dan Shared Hooks yang sudah diimplementasi.
 
@@ -85,7 +51,7 @@ Panduan lengkap untuk menggunakan Config Folder dan Shared Hooks yang sudah diim
 
 ---
 
-### 4. **FEATURE_CONSTANTS_GUIDE.md** - Feature Constants Pattern
+### 3. **FEATURE_CONSTANTS_GUIDE.md** - Feature Constants Pattern
 
 Panduan lengkap untuk membuat dan menggunakan Feature Constants per feature module.
 
@@ -138,8 +104,7 @@ Panduan lengkap untuk membuat dan menggunakan Feature Constants per feature modu
 ### Saya tech lead / architect
 
 1. ✅ [ARCHITECTURE.md](./ARCHITECTURE.md) - Complete architecture overview
-2. ✅ [ARCHITECTURE_ADJUSTMENTS.md](./ARCHITECTURE_ADJUSTMENTS.md) - Phase planning dan roadmap
-3. ✅ [CONFIG_HOOKS_GUIDE.md](./CONFIG_HOOKS_GUIDE.md) & [FEATURE_CONSTANTS_GUIDE.md](./FEATURE_CONSTANTS_GUIDE.md) - Implementation details
+2. ✅ [CONFIG_HOOKS_GUIDE.md](./CONFIG_HOOKS_GUIDE.md) & [FEATURE_CONSTANTS_GUIDE.md](./FEATURE_CONSTANTS_GUIDE.md) - Implementation details
 
 ### Saya ingin refactor existing code
 
@@ -257,7 +222,7 @@ Jika ada pertanyaan tentang:
 - **Architecture & Structure** → Baca ARCHITECTURE.md
 - **Config & Hooks Usage** → Baca CONFIG_HOOKS_GUIDE.md
 - **Feature Constants** → Baca FEATURE_CONSTANTS_GUIDE.md
-- **Implementation Progress** → Baca ARCHITECTURE_ADJUSTMENTS.md
+- **Implementation / struktur project** → Baca [ARCHITECTURE.md](./ARCHITECTURE.md)
 - **Best Practices** → Lihat masing-masing guide
 
 ---

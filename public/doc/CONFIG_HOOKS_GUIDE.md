@@ -774,7 +774,7 @@ export function ProductDetail({ productId }: { productId: string }) {
 ## 📚 Related Documentation
 
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md) - Complete architecture guide
-- [`ARCHITECTURE_ADJUSTMENTS.md`](./ARCHITECTURE_ADJUSTMENTS.md) - All adjustment recommendations
+- [ARCHITECTURE.md](./ARCHITECTURE.md) - Architecture & structure
 - [`FEATURE_CONSTANTS_GUIDE.md`](./FEATURE_CONSTANTS_GUIDE.md) - Feature-specific constants
 
 ---

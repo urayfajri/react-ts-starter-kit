@@ -539,7 +539,7 @@ if (name.length < PRODUCT_LIMITS.NAME_MIN_LENGTH ||
 ## Related Documentation
 
 - `ARCHITECTURE.md` - Complete architecture guide
-- `ARCHITECTURE_ADJUSTMENTS.md` - Architecture improvements
+- `ARCHITECTURE.md` - Architecture & structure
 - `CONFIG_HOOKS_GUIDE.md` - Config folder and hooks usage
 
 ## Next Steps

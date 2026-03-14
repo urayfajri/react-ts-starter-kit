@@ -13,7 +13,6 @@ Semua dokumentasi telah dipindahkan ke `/public/doc/` untuk kemudahan akses dan 
 | **[INDEX.md](./public/doc/INDEX.md)** | 📌 **START HERE** - Navigation hub untuk semua docs | 5 min |
 | **[QUICK_REFERENCE.md](./public/doc/QUICK_REFERENCE.md)** | ⚡ Cheat sheet untuk developers | 5 min |
 | [ARCHITECTURE.md](./public/doc/ARCHITECTURE.md) | 📐 Complete architecture guide | 15 min |
-| [ARCHITECTURE_ADJUSTMENTS.md](./public/doc/ARCHITECTURE_ADJUSTMENTS.md) | 🛣️ Roadmap & phase planning | 20 min |
 | [CONFIG_HOOKS_GUIDE.md](./public/doc/CONFIG_HOOKS_GUIDE.md) | 🔧 Config & hooks implementation guide | 30 min |
 | [FEATURE_CONSTANTS_GUIDE.md](./public/doc/FEATURE_CONSTANTS_GUIDE.md) | 📋 Feature constants pattern reference | 25 min |
 
@@ -33,9 +32,8 @@ Semua dokumentasi telah dipindahkan ke `/public/doc/` untuk kemudahan akses dan 
 3. Follow patterns dari examples
 
 ### 🏗️ Tech Lead / Architect?
-1. Baca [`ARCHITECTURE_ADJUSTMENTS.md`](./public/doc/ARCHITECTURE_ADJUSTMENTS.md) untuk roadmap
-2. Baca [`ARCHITECTURE.md`](./public/doc/ARCHITECTURE.md) untuk full guide
-3. Review phase planning
+1. Baca [`ARCHITECTURE.md`](./public/doc/ARCHITECTURE.md) untuk full guide
+2. Baca [`CONFIG_HOOKS_GUIDE.md`](./public/doc/CONFIG_HOOKS_GUIDE.md) & [`FEATURE_CONSTANTS_GUIDE.md`](./public/doc/FEATURE_CONSTANTS_GUIDE.md) untuk implementation details
 
 ---
 
@@ -66,19 +64,12 @@ Semua dokumentasi telah dipindahkan ke `/public/doc/` untuk kemudahan akses dan 
 - ✅ INDEX.md - Navigation hub
 - ✅ QUICK_REFERENCE.md - Developer cheat sheet
 - ✅ ARCHITECTURE.md - Main guide (updated with Feature Constants)
-- ✅ ARCHITECTURE_ADJUSTMENTS.md - Roadmap & phases
 - ✅ CONFIG_HOOKS_GUIDE.md - Implementation guide
 - ✅ FEATURE_CONSTANTS_GUIDE.md - Pattern reference
 
-### ⏳ PLANNED (Phase 2)
-- Guards folder (ProtectedRoute, AuthGuard)
-- Error handling layer (AppError, ErrorBoundary)
-- Feature components structure
-
-### ⏳ PLANNED (Phase 3)
-- Contexts folder (optional)
-- Services layer (optional)
-- Zustand stores (optional)
+### ✅ Phase 2 & 3 COMPLETED
+- Guards, errors, feature components (Phase 2)
+- Contexts, services, Zustand stores (Phase 3). See [ARCHITECTURE.md](./public/doc/ARCHITECTURE.md) for structure
 
 ---
 
@@ -90,7 +81,6 @@ project-root/
 │   ├── INDEX.md                        # Navigation hub
 │   ├── QUICK_REFERENCE.md              # Cheat sheet
 │   ├── ARCHITECTURE.md                 # Main guide
-│   ├── ARCHITECTURE_ADJUSTMENTS.md     # Roadmap
 │   ├── CONFIG_HOOKS_GUIDE.md           # Config & hooks
 │   └── FEATURE_CONSTANTS_GUIDE.md      # Feature constants
 │
@@ -200,7 +190,7 @@ if (name.length < PRODUCT_LIMITS.NAME_MIN_LENGTH) {
 - **Architecture & Structure?** → Read [`ARCHITECTURE.md`](./public/doc/ARCHITECTURE.md)
 - **How to use Config/Hooks?** → Read [`CONFIG_HOOKS_GUIDE.md`](./public/doc/CONFIG_HOOKS_GUIDE.md)
 - **Feature Constants pattern?** → Read [`FEATURE_CONSTANTS_GUIDE.md`](./public/doc/FEATURE_CONSTANTS_GUIDE.md)
-- **Implementation status?** → Read [`ARCHITECTURE_ADJUSTMENTS.md`](./public/doc/ARCHITECTURE_ADJUSTMENTS.md)
+- **Implementation status / structure?** → Read [`ARCHITECTURE.md`](./public/doc/ARCHITECTURE.md)
 - **Need quick reference?** → Check [`QUICK_REFERENCE.md`](./public/doc/QUICK_REFERENCE.md)
 
 ---

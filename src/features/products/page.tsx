@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/shared/components/ui/button";
 import Header from "@/shared/components/layout/Header";
 import {
@@ -9,7 +10,9 @@ import {
 } from "./hooks";
 import { useDebounce } from "@/shared/hooks";
 
-export default function ProductsPage() {
+type ProductsPageProps = { embedded?: boolean };
+
+export default function ProductsPage({ embedded = false }: ProductsPageProps) {
   const { data, isLoading, isError } = useProducts();
   const createMut = useCreateProduct();
   const updateMut = useUpdateProduct();
@@ -29,15 +32,18 @@ export default function ProductsPage() {
     ? products.filter((p) => p.name.toLowerCase().includes(debouncedQuery.toLowerCase()))
     : products;
 
+  const contentPadding = embedded ? "p-6" : "max-w-7xl mx-auto px-6 py-16";
+  const outerClass = embedded ? "" : "min-h-screen bg-gradient-to-br from-background to-secondary/5";
+
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background to-secondary/5">
-        <Header />
-        <div className="max-w-7xl mx-auto px-6 py-16">
+      <div className={outerClass}>
+        {!embedded && <Header />}
+        <div className={contentPadding}>
           <div className="flex items-center justify-center p-12">
             <div className="text-center space-y-3">
               <div className="inline-block">
-                <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
+                <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full" />
               </div>
               <p className="text-muted-foreground">Loading products...</p>
             </div>
@@ -49,16 +55,12 @@ export default function ProductsPage() {
 
   if (isError) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background to-secondary/5">
-        <Header />
-        <div className="max-w-7xl mx-auto px-6 py-16">
+      <div className={outerClass}>
+        {!embedded && <Header />}
+        <div className={contentPadding}>
           <div className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg p-6 text-center space-y-3">
-            <p className="text-red-600 dark:text-red-400 font-semibold">
-              Failed to load products
-            </p>
-            <Button variant="outline" onClick={() => window.location.reload()}>
-              Retry
-            </Button>
+            <p className="text-red-600 dark:text-red-400 font-semibold">Failed to load products</p>
+            <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
           </div>
         </div>
       </div>
@@ -66,10 +68,9 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/5">
-      <Header />
-
-      <div className="max-w-7xl mx-auto px-6 py-16 space-y-8">
+    <div className={outerClass}>
+      {!embedded && <Header />}
+      <div className={`${contentPadding} space-y-8`}>
         {/* Title Section */}
         <div className="space-y-2">
           <h2 className="text-4xl font-bold tracking-tight">Products Demo</h2>
@@ -166,9 +167,15 @@ export default function ProductsPage() {
 
         {/* Back Button */}
         <div className="pt-4">
-          <a href="/">
-            <Button variant="outline">← Back to Home</Button>
-          </a>
+          {embedded ? (
+            <Link to="/app">
+              <Button variant="outline">← Dashboard</Button>
+            </Link>
+          ) : (
+            <a href="/">
+              <Button variant="outline">← Back to Home</Button>
+            </a>
+          )}
         </div>
       </div>
     </div>

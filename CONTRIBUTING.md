@@ -63,8 +63,7 @@ npm run check-all         # lint + format + type-check + test
 
 Please familiarize yourself with our modular architecture:
 
-**See:** [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed structure
-**See:** [ARCHITECTURE_ADJUSTMENTS.md](./ARCHITECTURE_ADJUSTMENTS.md) for recommendations
+**See:** [ARCHITECTURE.md](./public/doc/ARCHITECTURE.md) for structure and recommendations
 
 ### Feature Development
 
