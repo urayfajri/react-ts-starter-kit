@@ -1,4 +1,5 @@
 import React from "react";
+import { AUTH_TOKEN_STORAGE_KEY } from "@/shared/constants/authStorage";
 
 /**
  * Auth user shape - extend as needed (e.g. add role, email)
@@ -18,8 +19,6 @@ type AuthContextValue = {
 
 const AuthContext = React.createContext<AuthContextValue | null>(null);
 
-const AUTH_TOKEN_KEY = "auth_token";
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = React.useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -30,7 +29,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(false);
       return;
     }
-    const token = window.localStorage.getItem(AUTH_TOKEN_KEY);
+    const token = window.localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
     if (!token) {
       setIsLoading(false);
       return;
@@ -43,14 +42,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = React.useCallback((user: AuthUser, token?: string) => {
     setUser(user);
     if (token && typeof window !== "undefined") {
-      window.localStorage.setItem(AUTH_TOKEN_KEY, token);
+      window.localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token);
     }
   }, []);
 
   const logout = React.useCallback(() => {
     setUser(null);
     if (typeof window !== "undefined") {
-      window.localStorage.removeItem(AUTH_TOKEN_KEY);
+      window.localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
     }
   }, []);
 

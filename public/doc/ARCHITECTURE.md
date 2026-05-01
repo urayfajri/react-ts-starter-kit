@@ -7,7 +7,8 @@ Satu panduan utama untuk struktur dan konvensi React TS Starter Kit—detail con
 ```
 src/
 ├── app/                          # Application core
-│   ├── App.tsx                   # Root shell + router outlet
+│   ├── AppShell.tsx               # Outlet root + UnauthorizedSessionSync
+│   ├── App.tsx                   # RouterProvider
 │   ├── AppLayout.tsx             # Layout area aplikasi (sidebar, protected)
 │   ├── routes.tsx                # Route definitions
 │   ├── providers.tsx             # Global providers (query, theme, auth, toasts)
@@ -53,12 +54,18 @@ src/
 │   │   ├── layout/               # Header, sidebar, theme toggle, dll.
 │   │   └── ui/                   # shadcn/ui primitives
 │   ├── contexts/                 # React context (theme, auth, dll.)
-│   ├── errors/                   # AppError, ErrorBoundary
+│   ├── constants/                # Konstanta bersama lintas lapisan
+│   │   └── authStorage.ts       # AUTH_TOKEN_STORAGE_KEY tunggal
+│   ├── errors/                   # AppError, ErrorBoundary, RouteFeatureErrorBoundary
 │   ├── hooks/                    # useLocalStorage, useDebounce, useThrottle, dll.
 │   ├── libs/
 │   │   ├── queryClient.ts
 │   │   └── api/
-│   │       └── axios.ts          # Axios (memakai API_CONFIG)
+│   │       ├── axios.ts                   # Bearer + interceptors → AppError, 401
+│   │       ├── mapAxiosError.ts           # Axios → AppError
+│   │       ├── toastFromApiError.ts       # Sonner untuk mutation/query errors
+│   │       ├── unauthorizedSession.ts     # Pemicu logout terpusat
+│   │       └── UnauthorizedSessionSync.tsx # React: navigate + logout saat 401
 │   ├── services/                 # Storage, notifications, dll.
 │   ├── stores/                   # Zustand (contoh UI state)
 │   ├── styles/
@@ -433,6 +440,17 @@ API_CONFIG.ENDPOINTS.PRODUCTS;
 APP_CONFIG.PAGINATION.DEFAULT_PAGE_SIZE;
 ```
 
+### API & error UX
+
+- **`src/shared/libs/api/axios.ts`**: interceptor request menyematkan **`Authorization: Bearer`** bila ada token (`getAuthToken()`, kunci **`AUTH_TOKEN_STORAGE_KEY`**).
+- **`mapAxiosError.ts`**: normalisasi gagal jaringan/HTTP ke **`AppError`** + teks dari **`ERROR_MESSAGES`** atau body server jika ada.
+- **401**: `notifyUnauthorized()` → **`UnauthorizedSessionSync`** di **`AppShell`**: `logout()`, toast ringkas, **`navigate('/login')`**. Mutation memakai **`toastFromApiError`** (menghindari toast ganda untuk 401).
+- **Route UX**: **`RouteFeatureErrorBoundary`** membungkus lazy routes dan **`Outlet`** di `AppLayout` (reset saat lokasi berubah).
+
+### TanStack Query devtools
+
+**React Query Devtools** hanya dimuat saat **`import.meta.env.DEV`** (`src/app/providers.tsx`).
+
 ### Shared hooks
 
 ```typescript
@@ -481,6 +499,6 @@ Output produksi ada di **`dist/`** setelah `npm run build`. Variabel **`VITE_*`*
 
 ## Status implementasi (ringkas)
 
-Starter ini sudah mencakup: config terpusat, **validasi env klien (Zod)**, **lazy route + Suspense**, hooks bersama, constants per feature, guards & rute terlindung, error boundary, context, services, store Zustand contoh, pola React Query + Axios, **mock HTTP (MSW)**, **coverage + a11y lint**, serta **smoke E2E (Playwright)**. Sesuaikan atau hapus modul yang tidak dipakai saat memulai proyek baru.
+Starter ini sudah mencakup: config terpusat, **validasi env klien (Zod)**, **lazy route + Suspense**, **route error boundaries**, **Axios → AppError + Bearer + 401 session sync**, hooks bersama, constants per feature, guards & rute terlindung, context, services, store Zustand contoh, pola React Query + **Devtools (dev)**, **mock HTTP (MSW)**, **coverage + a11y lint**, **analisis bundle (`build:analyze`)**, serta **smoke E2E (Playwright)**. Sesuaikan atau hapus modul yang tidak dipakai saat memulai proyek baru.
 
 _Dokumentasi arsitektur dipusatkan di file ini; baca kode di `src/` sebagai sumber kebenaran kedua._

@@ -51,6 +51,7 @@ npm run type-check        # TypeScript check
 npm run test              # Vitest watch mode
 npm run test:coverage     # Same as CI tests + v8 coverage (see ./coverage)
 npm run build && npm run test:e2e   # E2E smoke (needs dist/; install browsers: npm run test:e2e:install)
+npm run build:analyze               # Bundle treemap → dist/stats.html
 ```
 
 Or run all at once:

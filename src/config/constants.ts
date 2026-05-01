@@ -21,6 +21,7 @@ export const ERROR_MESSAGES = {
   NETWORK: "Network error. Please check your connection.",
   SERVER: "Server error. Please try again later.",
   UNAUTHORIZED: "You are not authorized to perform this action.",
+  FORBIDDEN: "You don't have permission to access this.",
   NOT_FOUND: "The requested resource was not found.",
   VALIDATION: "Please check your input and try again.",
   UNKNOWN: "An unexpected error occurred.",

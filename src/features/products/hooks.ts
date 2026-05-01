@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { toastFromApiError } from "@/shared/libs/api/toastFromApiError";
 import {
   createProduct,
   deleteProduct,
@@ -23,8 +24,8 @@ export function useCreateProduct() {
       toast.success("Product created");
       qc.invalidateQueries({ queryKey: ["products"] });
     },
-    onError: (err: any) => {
-      toast.error(err?.message ?? "Failed to create product");
+    onError: (err: unknown) => {
+      toastFromApiError(err);
     },
   });
 }
@@ -37,8 +38,8 @@ export function useUpdateProduct() {
       toast.success("Product updated");
       qc.invalidateQueries({ queryKey: ["products"] });
     },
-    onError: (err: any) => {
-      toast.error(err?.message ?? "Failed to update product");
+    onError: (err: unknown) => {
+      toastFromApiError(err);
     },
   });
 }
@@ -58,8 +59,8 @@ export function useDeleteProduct() {
       return { prev };
     },
 
-    onError: (err: any, _id, ctx) => {
-      toast.error(err?.message ?? "Failed to delete product");
+    onError: (err: unknown, _id, ctx) => {
+      toastFromApiError(err);
       if (ctx?.prev) qc.setQueryData(["products"], ctx.prev);
     },
 

@@ -10,7 +10,10 @@ Production-ready starter with:
 - Dark mode (class strategy + localStorage)
 - React Router
 - TanStack Query (query + mutation templates)
-- Axios instance (`API_CONFIG` from `@/config`)
+- Axios + **AppError** (mapping terpusat), **Bearer** dari token, **401 → logout + redirect** (`UnauthorizedSessionSync`)
+- **Route-level** `RouteFeatureErrorBoundary` (Suspense lazy + layout `/app`)
+- **TanStack Query Devtools** hanya **`import.meta.env.DEV`**
+- **Analisis bundle:** `npm run build:analyze`, lalu buka `dist/stats.html`
 - Lazy route splitting (`React.lazy` + `Suspense`) for feature pages
 - Client env validated with **Zod** (`VITE_API_URL` optional URL)
 - Zustand
@@ -42,6 +45,10 @@ npm run dev
 The repo uses a **feature-first** layout: `src/features/*` for domains, `src/shared/*` for reusable UI/libs/hooks, `src/config/*` for centralized settings, `src/types/*` for shared DTOs and entities.
 
 **Full guide (single doc):** [public/doc/ARCHITECTURE.md](./public/doc/ARCHITECTURE.md)
+
+## Bundle analysis
+
+Jalankan `npm run build:analyze` (butuh shell dengan `ANALYZE=true`; di Windows bisa `set ANALYZE=true` lalu `npx vite build` setelah `tsc -b`). Buka **`dist/stats.html`** di browser untuk treemap gzip/brotli — dipakai untuk cek regressi ukuran bundle sebelum merge fitur besar.
 
 ## E2E (Playwright)
 
