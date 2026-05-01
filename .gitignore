@@ -40,6 +40,11 @@ Desktop.ini
 
 # --- Coverage & Test Output ---
 coverage/
+.playwright-auth/
+blob-report/
+playwright-report/
+test-results/
+
 *.lcov
 
 # --- Linting & Formatting ---

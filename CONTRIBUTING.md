@@ -48,13 +48,15 @@ Before pushing, ensure code quality:
 npm run lint              # Check linting
 npm run format            # Format code
 npm run type-check        # TypeScript check
-npm run test              # Run tests
+npm run test              # Vitest watch mode
+npm run test:coverage     # Same as CI tests + v8 coverage (see ./coverage)
+npm run build && npm run test:e2e   # E2E smoke (needs dist/; install browsers: npm run test:e2e:install)
 ```
 
 Or run all at once:
 
 ```bash
-npm run check-all         # lint + format + type-check + test
+npm run check-all         # lint + type-check + test (with coverage) + build (tidak menyertakan Playwright — lihat README)
 ```
 
 ## Architecture Guidelines

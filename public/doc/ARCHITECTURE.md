@@ -1,80 +1,92 @@
 # Modular Architecture Guide
 
-Panduan lengkap untuk struktur arsitektur modular React TS Starter Kit.
+Satu panduan utama untuk struktur dan konvensi React TS Starter Kit—detail config, hooks, dan feature constants ada di bagian **Referensi cepat** di akhir dokumen ini.
 
 ## 📁 Folder Structure
 
 ```
 src/
 ├── app/                          # Application core
-│   ├── App.tsx                   # Main app component
+│   ├── App.tsx                   # Root shell + router outlet
+│   ├── AppLayout.tsx             # Layout area aplikasi (sidebar, protected)
 │   ├── routes.tsx                # Route definitions
-│   ├── providers.tsx             # Global providers (theme, query, etc)
-│   └── theme.tsx                 # Theme configuration
+│   ├── providers.tsx             # Global providers (query, theme, auth, toasts)
+│   ├── RouteFallback.tsx          # Suspense fallback untuk lazy routes
+│   └── theme.tsx                 # Theme / design tokens helpers
 │
-├── config/                       # ✅ Centralized configuration
-│   ├── api.ts                   # API config, endpoints
-│   ├── app.ts                   # App settings, features
-│   ├── constants.ts             # Global constants
-│   └── index.ts                 # Barrel export
+├── config/                       # Centralized configuration
+│   ├── api.ts                    # API base URL, endpoints, retry, cache
+│   ├── app.ts                    # App settings, features, pagination, validation
+│   ├── constants.ts              # HTTP status, messages, delays, durations
+│   ├── env.ts                    # Validasi env klien (Zod); import dulu di main.tsx
+│   └── index.ts                  # Barrel export
 │
 ├── features/                     # Feature modules (domain-driven)
 │   ├── home/
-│   │   ├── page.tsx              # Feature page/route
-│   │   ├── constants.ts          # ✅ Feature-specific constants
-│   │   └── (api.ts, hooks.ts)    # Optional when feature needs API/hooks
+│   │   ├── page.tsx
+│   │   └── constants.ts          # Feature-specific constants
+│   │
+│   ├── auth/
+│   │   ├── LoginPage.tsx
+│   │   └── SignupPage.tsx
+│   │
+│   ├── app-dashboard/
+│   │   └── AppDashboardPage.tsx
 │   │
 │   └── products/
 │       ├── page.tsx
 │       ├── api.ts
 │       ├── hooks.ts
-│       ├── constants.ts          # ✅ Feature-specific constants
-│       └── components/           # Feature-specific components
+│       ├── constants.ts
+│       └── components/
 │           ├── ProductCard.tsx
 │           ├── ProductForm.tsx
-│           └── index.ts          # Barrel export (optional)
+│           └── index.ts
 │
-├── guards/                       # Route guards & middleware
-│   ├── AuthGuard.ts              # Auth utilities (isAuthenticated, getAuthToken)
-│   └── ProtectedRoute.tsx       # Route wrapper component
+├── guards/                       # Route guards
+│   ├── AuthGuard.ts              # Auth helpers (token, session)
+│   ├── ProtectedRoute.tsx        # Wrapper: redirect jika belum login
+│   └── index.ts
 │
-├── shared/                       # Shared utilities & components
+├── shared/
 │   ├── components/
-│   │   ├── layout/               # Layout components
-│   │   │   ├── Header.tsx
-│   │   │   ├── Dashboard.tsx
-│   │   │   ├── ThemeToggle.tsx
-│   │   │   └── ComponentShowcase.tsx
-│   │   └── ui/                   # UI primitives (shadcn/ui)
-│   │       └── button.tsx
-|   ├── errors/                   # AppError and ErrorBoundary
-│   ├── hooks/                    # ✅ Reusable custom hooks
-│   │   ├── useLocalStorage.ts
-│   │   ├── useDebounce.ts
-│   │   ├── useThrottle.ts
-│   │   ├── useAsync.ts
-│   │   ├── usePrevious.ts
-│   │   ├── useMediaQuery.ts
-│   │   └── index.ts
+│   │   ├── layout/               # Header, sidebar, theme toggle, dll.
+│   │   └── ui/                   # shadcn/ui primitives
+│   ├── contexts/                 # React context (theme, auth, dll.)
+│   ├── errors/                   # AppError, ErrorBoundary
+│   ├── hooks/                    # useLocalStorage, useDebounce, useThrottle, dll.
 │   ├── libs/
-│   │   ├── queryClient.ts        # React Query setup
+│   │   ├── queryClient.ts
 │   │   └── api/
-│   │       └── axios.ts          # Axios instance
+│   │       └── axios.ts          # Axios (memakai API_CONFIG)
+│   ├── services/                 # Storage, notifications, dll.
+│   ├── stores/                   # Zustand (contoh UI state)
 │   ├── styles/
-│   │   └── globals.css           # Global styles
+│   │   └── globals.css
 │   └── utils/
-│       └── cn.ts                 # Class name utility
+│       └── cn.ts
 │
 ├── types/                        # Global type definitions
 │   ├── index.ts
 │   └── product/
-│       ├── product.ts            # Entity types
-│       ├── request.ts            # Request DTOs
-│       ├── response.ts           # Response DTOs
-│       └── index.ts              # Barrel export
+│       ├── product.ts
+│       ├── request.ts
+│       ├── response.ts
+│       └── index.ts
 │
 ├── main.tsx                      # Entry point
-└── vite-env.d.ts                # Vite env types
+└── vite-env.d.ts                 # Vite env types
+
+tests/
+├── setup.ts                      # jest-dom matchers + lifecycle MSW
+└── msw/
+    ├── handlers.ts               # HTTP handlers (pakai URL dari API_CONFIG)
+    └── server.ts                 # setupServer (MSW untuk Vitest/jsdom)
+
+e2e/
+└── smoke.spec.ts                 # Playwright smoke (Chromium)
+
+playwright.config.ts              # Preview (`vite preview`) + proyek browser
 ```
 
 ## 🎯 Architecture Principles
@@ -108,9 +120,13 @@ src/types/
 
 ### 4. **Shared Resources**
 
-- `shared/components/` - Reusable UI components
-- `shared/hooks/` - Custom hooks (localStorage, debounce, throttle, async, mediaquery, previous)
-- `shared/libs/` - Core libraries & setup
+- `shared/components/` - Layout & UI primitives
+- `shared/contexts/` - Context providers yang dipakai lintas feature
+- `shared/errors/` - Error types dan boundary
+- `shared/hooks/` - Custom hooks (localStorage, debounce, throttle, async, previous, media query)
+- `shared/libs/` - React Query client, Axios instance
+- `shared/services/` - Abstraksi ke storage / API sampingan / notifikasi
+- `shared/stores/` - Zustand store global kecil (mis. UI)
 - `shared/utils/` - Helper functions
 - `shared/styles/` - Global styles
 
@@ -210,9 +226,11 @@ features/
 ```typescript
 // shared/libs/api/axios.ts
 import axios from "axios";
+import { API_CONFIG } from "@/config";
 
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: API_CONFIG.BASE_URL,
+  timeout: API_CONFIG.TIMEOUT,
 });
 
 // Usage in features
@@ -289,13 +307,13 @@ Configure `tsconfig.json` untuk clean imports:
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@/features/*": ["src/features/*"],
-      "@/shared/*": ["src/shared/*"],
-      "@/types/*": ["src/types/*"]
+      "@tests/*": ["tests/*"]
     }
   }
 }
 ```
+
+Impor umum memakai `@/` (mis. `@/features/...`). Untuk artefak tes bersama, gunakan `@tests/...` menuju folder `tests/` (handler MSW, dll.).
 
 ## 📊 Dependencies Flow
 
@@ -400,4 +418,69 @@ export default function ProductsPage() {
 
 ---
 
-**Happy Coding! 🚀**
+## Referensi cepat: config, hooks, feature constants
+
+### Config
+
+`main.tsx` mengimpor `@/config/env` terlebih dahulu supaya variabel tidak valid gagal cepat di startup. `API_CONFIG.BASE_URL` memakai `clientEnv.VITE_API_URL` (optional URL) atau fallback default.
+
+```typescript
+import { API_CONFIG, APP_CONFIG, clientEnv } from "@/config";
+import { HTTP_STATUS, ERROR_MESSAGES, DELAYS } from "@/config/constants";
+
+API_CONFIG.BASE_URL;
+API_CONFIG.ENDPOINTS.PRODUCTS;
+APP_CONFIG.PAGINATION.DEFAULT_PAGE_SIZE;
+```
+
+### Shared hooks
+
+```typescript
+import {
+  useLocalStorage,
+  useDebounce,
+  useThrottle,
+  useAsync,
+  usePrevious,
+  useMediaQuery,
+} from "@/shared/hooks";
+```
+
+### Feature constants
+
+Per feature, tambahkan `constants.ts` dengan objek `as const` (limits, status, sort, messages, cache, dll.) dan export tipe turunan bila perlu:
+
+```typescript
+export const PRODUCT_STATUS = { ACTIVE: "active", INACTIVE: "inactive" } as const;
+export type ProductStatus = (typeof PRODUCT_STATUS)[keyof typeof PRODUCT_STATUS];
+```
+
+Detail lihat contoh di `src/features/products/constants.ts` dan `src/features/home/constants.ts`.
+
+---
+
+## Testing singkat
+
+- **Vitest** + `@testing-library/react`; setup global di `tests/setup.ts`.
+- **MSW** (`msw`): handler di `tests/msw/handlers.ts`, server Node di `tests/msw/server.ts` — digunakan untuk Axios/React Query pada tes (mis. `fetchProducts`).
+- **`npm run test:coverage`** memakai provider **v8**; output `./coverage/` (di-ignore git).
+- **Playwright**: smoke **`e2e/smoke.spec.ts`**; `npm run build && npm run test:e2e` (`playwright.config.ts` menyalakan **`vite preview`**). Instal browser: **`npm run test:e2e:install`**.
+- Alias impor tes: **`@tests/...`** → folder `tests/`.
+
+---
+
+## Deploy (ringkas)
+
+Output produksi ada di **`dist/`** setelah `npm run build`. Variabel **`VITE_*`** harus ada **sebelum build** (embedding statis).
+
+- **Hosting statis**: Vercel / Netlify / Cloudflare Pages / GitHub Pages — set **SPA fallback** (semua route → `index.html` dengan status 200 / rewrite).
+- **Subpath** (mis. `https://user.github.io/repo/`): set Vite **`base`**, sesuaikan **`basename`** Router.
+- Detail tabel dan perintah: lihat **`README.md`** bagian **Deploy**.
+
+---
+
+## Status implementasi (ringkas)
+
+Starter ini sudah mencakup: config terpusat, **validasi env klien (Zod)**, **lazy route + Suspense**, hooks bersama, constants per feature, guards & rute terlindung, error boundary, context, services, store Zustand contoh, pola React Query + Axios, **mock HTTP (MSW)**, **coverage + a11y lint**, serta **smoke E2E (Playwright)**. Sesuaikan atau hapus modul yang tidak dipakai saat memulai proyek baru.
+
+_Dokumentasi arsitektur dipusatkan di file ini; baca kode di `src/` sebagai sumber kebenaran kedua._

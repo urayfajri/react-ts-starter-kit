@@ -6,3 +6,4 @@
 export * from "./api";
 export * from "./app";
 export * from "./constants";
+export { clientEnv, type ClientEnv } from "./env";

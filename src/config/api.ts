@@ -3,9 +3,10 @@
  * Centralized API setup, endpoints, and constants
  */
 
+import { clientEnv } from "./env";
+
 export const API_CONFIG = {
-  // Base URL
-  BASE_URL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
+  BASE_URL: clientEnv.VITE_API_URL ?? "http://localhost:3000/api",
 
   // Request timeout (ms)
   TIMEOUT: 30000,

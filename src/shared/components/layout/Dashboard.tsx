@@ -123,7 +123,6 @@ function FeatureCard({
   return (
     <article
       className="group relative rounded-2xl border border-border bg-card p-6 sm:p-7 card-glow hover:-translate-y-0.5"
-      tabIndex={0}
     >
       <div className="mb-5 inline-flex rounded-xl bg-primary/10 p-3.5 text-2xl transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/15">
         {icon}

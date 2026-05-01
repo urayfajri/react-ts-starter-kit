@@ -1,15 +1,41 @@
-/* ESLint flat config with TypeScript support via @typescript-eslint
- * This config lints JavaScript and TypeScript files and sets up
- * recommended rules for React and TypeScript. Install the dev
- * dependencies listed below before running `npm run lint`.
- *
- * Dev dependencies to install locally:
- *
- * npm install -D @typescript-eslint/parser @typescript-eslint/eslint-plugin
- *
+/**
+ * ESLint flat config — TypeScript, React, jsx-a11y (warnings), Prettier-compatible.
  */
 
+const jsxA11yPlugin = require("eslint-plugin-jsx-a11y");
+
+function jsxRulesAsWarn(ruleMap) {
+  const out = {};
+  for (const [key, value] of Object.entries(ruleMap)) {
+    if (value === "off") {
+      out[key] = "off";
+      continue;
+    }
+    if (Array.isArray(value)) {
+      out[key] = ["warn", ...value.slice(1)];
+      continue;
+    }
+    out[key] = "warn";
+  }
+  return out;
+}
+
+const jsxA11yWarnRules = jsxRulesAsWarn(jsxA11yPlugin.flatConfigs.recommended.rules);
+
 module.exports = [
+  {
+    ignores: [
+      "node_modules/**",
+      "dist/**",
+      "public/**",
+      "coverage/**",
+      "**/coverage/**",
+      "e2e/**",
+      "test-results/**",
+      "playwright-report/**",
+    ],
+  },
+
   // JS/JSX rules
   {
     files: ["**/*.{js,jsx,mjs,cjs}"],
@@ -21,11 +47,14 @@ module.exports = [
     plugins: {
       react: require("eslint-plugin-react"),
       "react-hooks": require("eslint-plugin-react-hooks"),
+      "jsx-a11y": jsxA11yPlugin,
     },
     rules: {
       // Minimal JS rules; rely on default/recommended behavior
       "react/react-in-jsx-scope": "off",
       "react/jsx-uses-react": "off",
+
+      ...jsxA11yWarnRules,
     },
     settings: { react: { version: "detect" } },
   },
@@ -49,6 +78,7 @@ module.exports = [
       "@typescript-eslint": require("@typescript-eslint/eslint-plugin"),
       react: require("eslint-plugin-react"),
       "react-hooks": require("eslint-plugin-react-hooks"),
+      "jsx-a11y": jsxA11yPlugin,
     },
     rules: {
       // TypeScript recommended rules
@@ -61,8 +91,13 @@ module.exports = [
       "react/jsx-uses-react": "off",
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
+
+      ...jsxA11yWarnRules,
     },
     settings: { react: { version: "detect" } },
   },
+
+  /** Turn off ESLint stylistic rules that conflict with Prettier */
+  require("eslint-config-prettier"),
 ];
 

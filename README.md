@@ -1,5 +1,7 @@
 # React + TypeScript Starter Kit (Vite)
 
+[![CI](https://github.com/urayfajri/react-ts-starter-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/urayfajri/react-ts-starter-kit/actions/workflows/ci.yml)
+
 Production-ready starter with:
 
 - React 19 + TypeScript strict
@@ -8,12 +10,15 @@ Production-ready starter with:
 - Dark mode (class strategy + localStorage)
 - React Router
 - TanStack Query (query + mutation templates)
-- Axios instance
+- Axios instance (`API_CONFIG` from `@/config`)
+- Lazy route splitting (`React.lazy` + `Suspense`) for feature pages
+- Client env validated with **Zod** (`VITE_API_URL` optional URL)
 - Zustand
 - Sonner toast
-- ESLint + Prettier
+- ESLint + Prettier + **jsx-a11y** (recommended rules sebagai `warn`)
 - Husky + lint-staged + commitlint
-- Vitest + RTL
+- Vitest + RTL + **MSW** (`tests/msw/`); laporan **`npm run test:coverage`** (provider v8)
+- Smoke **E2E** dengan **Playwright** (`e2e/`, Chromium)
 - Feature generator CLI
 - OSS templates (LICENSE, CONTRIBUTING, PR/Issue templates)
 
@@ -25,53 +30,46 @@ cp .env.example .env
 npm run dev
 ```
 
-## Demo
+## Demo routes
 
 - Home: `/`
-- Products demo (query + mutations): `/products`
+- Login / sign up: `/login`, `/signup`
+- App shell (protected): `/app`
+- Products demo inside app layout: `/app/products`
 
-## 🏗️ Architecture
+## Architecture
 
-This project follows a **modular, feature-first architecture** for scalability and maintainability.
+The repo uses a **feature-first** layout: `src/features/*` for domains, `src/shared/*` for reusable UI/libs/hooks, `src/config/*` for centralized settings, `src/types/*` for shared DTOs and entities.
 
-### Folder Structure
+**Full guide (single doc):** [public/doc/ARCHITECTURE.md](./public/doc/ARCHITECTURE.md)
 
-```
-src/
-├── app/                    # Application core (routes, providers, theme)
-├── features/               # Feature modules (home, products, auth, etc)
-├── shared/                 # Shared components, utilities, libs
-│   ├── components/         # Layout & UI components
-│   ├── libs/               # React Query, Axios setup
-│   ├── styles/             # Global styles
-│   └── utils/              # Helper functions
-├── types/                  # Global type definitions (centralized DTOs)
-└── main.tsx               # Entry point
+## E2E (Playwright)
+
+Smoke tests live in [`e2e/`](./e2e/) (Chromium). Config: [`playwright.config.ts`](./playwright.config.ts) — starts **`vite preview`** on `http://127.0.0.1:4173` (set `E2E_PORT` / `E2E_BASE_URL` if needed).
+
+```bash
+npx playwright install chromium   # first run (or: npm run test:e2e:install)
+npm run build && npm run test:e2e
 ```
 
-### Key Principles
+For UI mode: `npx playwright test --ui`.
 
-- **Feature-First**: Each feature is self-contained with its own API, hooks, and components
-- **Centralized Types**: All DTOs and type definitions in `src/types/`
-- **No Circular Dependencies**: Features can only import from Shared & Types
-- **Barrel Exports**: Clean imports using barrel exports (`index.ts`)
+## Deploy (static SPA)
 
-### Example: Product Feature
+`npm run build` writes **`dist/`** (HTML, JS, CSS). This is a client-only React app: **set all `VITE_*` variables in the hosting provider** (or CI) **before** the build so they are baked into the bundle.
 
-```
-features/products/
-├── api.ts         # API calls (import types from @/types/product)
-├── hooks.ts       # Custom hooks (React Query, business logic)
-└── page.tsx       # Component (uses hooks, UI components from shared)
+| Platform | Notes |
+| -------- | ----- |
+| **Vercel** | Preset: Vite. Build: `npm run build`, output: `dist`. Add a **rewrite** so every path serves `index.html` (SPA fallback). |
+| **Netlify** | Publish directory `dist`, build command `npm run build`. Use `_redirects` or `netlify.toml`: `/*` → `/index.html` with **200** (rewrite). |
+| **Cloudflare Pages** | Build output `dist`; enable **SPA / fallback** to `index.html` in project settings. |
+| **GitHub Pages** | Upload `dist` (e.g. `actions/upload-pages-artifact`). If the site is not at the domain root, set Vite **`base`** in `vite.config.ts` and pass a matching **`basename`** to `RouterProvider` in `App.tsx`. |
 
-types/product/
-├── product.ts     # Entity types
-├── request.ts     # Request DTOs
-├── response.ts    # Response DTOs
-└── index.ts       # Barrel export
-```
+Preview production build locally: `npm run preview`.
 
-For detailed architecture guide, see [ARCHITECTURE.md](./ARCHITECTURE.md).
+## CI (GitHub Actions)
+
+On push and pull requests to `main` or `master`, [.github/workflows/ci.yml](./.github/workflows/ci.yml) runs `npm ci`, **type-check**, **lint**, **Vitest + coverage**, **production build**, then installs **Playwright Chromium** and runs **`npm run test:e2e`**. Locally, **`npm run check-all`** matches most of that but **does not** run Playwright; use `npm run build && npm run test:e2e` before release if you want E2E parity with CI.
 
 ## Generate a new feature
 

@@ -108,7 +108,6 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  // eslint-disable-next-line no-console
   console.log(`Mock API server running at http://localhost:${PORT}/api`);
   console.log(`Endpoints: GET/POST /api/products, GET/PUT/DELETE /api/products/:id`);
 });
